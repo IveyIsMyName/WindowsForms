@@ -15,8 +15,18 @@ namespace Clock
 		public MainForm()
 		{
 			InitializeComponent();
+			labelTime.BackColor = Color.AliceBlue;
+			this.Location = new Point(Screen.PrimaryScreen.Bounds.Width - this.Width, 50);
 		}
-
+		void SetVisibility(bool visible)
+		{
+			checkBoxShowDate.Visible = visible;
+			cbShowWeekDay.Visible = visible;
+			btnHideControls.Visible = visible;
+			this.TransparencyKey = visible ? Color.Empty : this.BackColor;
+			this.FormBorderStyle = visible ? FormBorderStyle.FixedToolWindow : FormBorderStyle.None;
+			this.ShowInTaskbar = visible;
+		}
 		private void timer_Tick(object sender, EventArgs e)
 		{
 			labelTime.Text = DateTime.Now.ToString("hh:mm:ss tt", System.Globalization.CultureInfo.InvariantCulture);
@@ -25,27 +35,61 @@ namespace Clock
 				labelTime.Text += "\n";
 				labelTime.Text += DateTime.Now.ToString("dd.MM.yyyy");
 			}
+			if(cbShowWeekDay.Checked)
+			{
+				labelTime.Text += "\n";
+				labelTime.Text += DateTime.Now.DayOfWeek;
+			}
+			notifyIcon.Text = labelTime.Text;
 		}
 
 		private void btnHideControls_Click(object sender, EventArgs e)
 		{
-			checkBoxShowDate.Visible = false;
-			btnHideControls.Visible = false;
-			this.TransparencyKey = this.BackColor;
-			this.FormBorderStyle = FormBorderStyle.None;
-			labelTime.BackColor = Color.AliceBlue;
-			this.ShowInTaskbar = false;
+			SetVisibility(false);
 		}
 
 		private void labelTime_DoubleClick(object sender, EventArgs e)
 		{
-			checkBoxShowDate.Visible = true;
-			btnHideControls.Visible = true;
-			this.TransparencyKey = System.Drawing.Color.Empty;
-			this.FormBorderStyle = FormBorderStyle.Sizable;
-			labelTime.BackColor = this.BackColor;
-			this.ShowInTaskbar = true;
-			//MessageBox.Show(this, "Вы два раза щелкнули мышью по часам", "Info", MessageBoxButtons.OK, MessageBoxIcon.Information);
+			SetVisibility(true);
+		}
+
+		private void cmExit_Click(object sender, EventArgs e)
+		{
+			this.Close();
+		}
+
+		private void cmTopmost_CheckedChanged(object sender, EventArgs e)
+		{
+			this.TopMost = cmTopmost.Checked;
+		}
+
+		private void cmShowDate_CheckedChanged(object sender, EventArgs e)
+		{
+			checkBoxShowDate.Checked = cmShowDate.Checked;
+		}
+
+		private void checkBoxShowDate_CheckedChanged(object sender, EventArgs e)
+		{
+			cmShowDate.Checked = checkBoxShowDate.Checked;
+		}
+
+		private void cmShowWeekday_CheckedChanged(object sender, EventArgs e)
+		{
+			cbShowWeekDay.Checked = cmShowWeekday.Checked;
+		}
+
+		private void cbShowWeekDay_CheckedChanged(object sender, EventArgs e)
+		{
+			cmShowWeekday.Checked = cbShowWeekDay.Checked;
+		}
+
+		private void notifyIcon_MouseDoubleClick(object sender, MouseEventArgs e)
+		{
+			if(!this.TopMost)
+			{
+				this.TopMost = true;
+				this.TopMost = false;
+			}
 		}
 	}
 }
