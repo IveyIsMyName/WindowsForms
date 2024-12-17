@@ -7,14 +7,21 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Drawing.Text;
 
 namespace Clock
 {
 	public partial class MainForm : Form
 	{
+		Color foreground;
+		Color background;
+		PrivateFontCollection fontCollection;
 		public MainForm()
 		{
 			InitializeComponent();
+			fontCollection = new PrivateFontCollection();
+			fontCollection.AddFontFile(@"C:\Users\iveyi\source\repos\WindowsForms\Clock\Fonts\digital-7.ttf");
+			labelTime.Font = new Font(fontCollection.Families[0], 42);
 			labelTime.BackColor = Color.AliceBlue;
 			this.Location = new Point(Screen.PrimaryScreen.Bounds.Width - this.Width, 50);
 		}
@@ -30,12 +37,12 @@ namespace Clock
 		private void timer_Tick(object sender, EventArgs e)
 		{
 			labelTime.Text = DateTime.Now.ToString("hh:mm:ss tt", System.Globalization.CultureInfo.InvariantCulture);
-			if(checkBoxShowDate.Checked)
+			if (checkBoxShowDate.Checked)
 			{
 				labelTime.Text += "\n";
 				labelTime.Text += DateTime.Now.ToString("dd.MM.yyyy");
 			}
-			if(cbShowWeekDay.Checked)
+			if (cbShowWeekDay.Checked)
 			{
 				labelTime.Text += "\n";
 				labelTime.Text += DateTime.Now.DayOfWeek;
@@ -85,10 +92,32 @@ namespace Clock
 
 		private void notifyIcon_MouseDoubleClick(object sender, MouseEventArgs e)
 		{
-			if(!this.TopMost)
+			if (!this.TopMost)
 			{
 				this.TopMost = true;
 				this.TopMost = false;
+			}
+		}
+
+		private void cmForeColor_Click(object sender, EventArgs e)
+		{
+			ColorDialog dlg1 = new ColorDialog();
+			DialogResult result = dlg1.ShowDialog();
+			if (result == DialogResult.OK)
+			{
+				foreground = dlg1.Color;
+				labelTime.ForeColor = foreground;
+			}
+		}
+
+		private void cmBackColor_Click(object sender, EventArgs e)
+		{
+			ColorDialog dlg2 = new ColorDialog();
+			DialogResult result = dlg2.ShowDialog();
+			if (result == DialogResult.OK)
+			{
+				background = dlg2.Color;
+				labelTime.BackColor = background;
 			}
 		}
 	}
