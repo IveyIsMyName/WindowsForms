@@ -24,6 +24,7 @@ namespace Clock
 			labelTime.Font = new Font(fontCollection.Families[0], 42);
 			labelTime.BackColor = Color.AliceBlue;
 			this.Location = new Point(Screen.PrimaryScreen.Bounds.Width - this.Width, 50);
+			SetVisibility(false);
 		}
 		void SetVisibility(bool visible)
 		{
@@ -52,12 +53,12 @@ namespace Clock
 
 		private void btnHideControls_Click(object sender, EventArgs e)
 		{
-			SetVisibility(false);
+			SetVisibility(cmShowControls.Checked = false);
 		}
 
 		private void labelTime_DoubleClick(object sender, EventArgs e)
 		{
-			SetVisibility(true);
+			SetVisibility(cmShowControls.Checked = true);
 		}
 
 		private void cmExit_Click(object sender, EventArgs e)
@@ -119,6 +120,11 @@ namespace Clock
 				background = dlg2.Color;
 				labelTime.BackColor = background;
 			}
+		}
+
+		private void cmShowControls_CheckedChanged(object sender, EventArgs e)
+		{
+			SetVisibility(cmShowControls.Checked);
 		}
 	}
 }
