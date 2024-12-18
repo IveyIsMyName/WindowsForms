@@ -16,6 +16,7 @@ namespace Clock
 		Color foreground;
 		Color background;
 		PrivateFontCollection fontCollection;
+		ChooseFontForm chooseFont;
 		public MainForm()
 		{
 			InitializeComponent();
@@ -125,6 +126,16 @@ namespace Clock
 		private void cmShowControls_CheckedChanged(object sender, EventArgs e)
 		{
 			SetVisibility(cmShowControls.Checked);
+		}
+
+		private void cmChooseFonts_Click(object sender, EventArgs e)
+		{
+			ChooseFontForm chooseFont = new ChooseFontForm();
+			DialogResult result = chooseFont.ShowDialog();
+			if (result == DialogResult.OK)
+			{
+				//labelTime.Font = chooseFont.NewFont;
+			}
 		}
 	}
 }

@@ -16,5 +16,10 @@ namespace Clock
 		{
 			InitializeComponent();
 		}
+
+		private void cbFonts_SelectedIndexChanged(object sender, EventArgs e)
+		{
+
+		}
 	}
 }
