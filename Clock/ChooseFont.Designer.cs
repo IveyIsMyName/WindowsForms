@@ -61,6 +61,7 @@
             0,
             0,
             0});
+			this.nudFontSize.ValueChanged += new System.EventHandler(this.nudFontSize_ValueChanged);
 			// 
 			// labelChooseFont
 			// 

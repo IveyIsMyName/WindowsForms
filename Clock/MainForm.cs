@@ -131,10 +131,10 @@ namespace Clock
 		private void cmChooseFonts_Click(object sender, EventArgs e)
 		{
 			ChooseFontForm chooseFont = new ChooseFontForm();
-			DialogResult result = chooseFont.ShowDialog();
-			if (result == DialogResult.OK)
+			if (chooseFont.ShowDialog() == DialogResult.OK)
 			{
-				//labelTime.Font = chooseFont.NewFont;
+				Font selectedFont = chooseFont.SelectedFont;
+				labelTime.Font = selectedFont;
 			}
 		}
 	}
