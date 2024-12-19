@@ -25,7 +25,7 @@ namespace Clock
 
 		private void LoadFonts()
 		{
-			string fontFolder = @"C:\Users\iveyi\source\repos\WindowsForms\Clock\Fonts";
+			string fontFolder = Path.Combine(Application.StartupPath, "Fonts");
 			List<string> fontFiles = new List<string>();
 			fontFiles.AddRange(Directory.GetFiles(fontFolder, "*.ttf", SearchOption.AllDirectories));
 			fontFiles.AddRange(Directory.GetFiles(fontFolder, "*.otf", SearchOption.AllDirectories));
