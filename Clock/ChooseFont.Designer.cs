@@ -36,6 +36,7 @@
 			this.labelExample = new System.Windows.Forms.Label();
 			this.btnOK = new System.Windows.Forms.Button();
 			this.btnCancel = new System.Windows.Forms.Button();
+			this.btnApply = new System.Windows.Forms.Button();
 			((System.ComponentModel.ISupportInitialize)(this.nudFontSize)).BeginInit();
 			this.SuspendLayout();
 			// 
@@ -45,14 +46,15 @@
 			this.cbFonts.FormattingEnabled = true;
 			this.cbFonts.Location = new System.Drawing.Point(12, 25);
 			this.cbFonts.Name = "cbFonts";
-			this.cbFonts.Size = new System.Drawing.Size(367, 24);
+			this.cbFonts.Size = new System.Drawing.Size(358, 24);
 			this.cbFonts.TabIndex = 0;
+			this.cbFonts.SelectedIndexChanged += new System.EventHandler(this.cbFonts_SelectedIndexChanged);
 			// 
 			// nudFontSize
 			// 
-			this.nudFontSize.Location = new System.Drawing.Point(385, 27);
+			this.nudFontSize.Location = new System.Drawing.Point(376, 27);
 			this.nudFontSize.Name = "nudFontSize";
-			this.nudFontSize.Size = new System.Drawing.Size(76, 22);
+			this.nudFontSize.Size = new System.Drawing.Size(85, 22);
 			this.nudFontSize.TabIndex = 1;
 			this.nudFontSize.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
 			this.nudFontSize.Value = new decimal(new int[] {
@@ -60,6 +62,7 @@
             0,
             0,
             0});
+			this.nudFontSize.ValueChanged += new System.EventHandler(this.nudFontSize_ValueChanged);
 			// 
 			// labelChooseFont
 			// 
@@ -98,6 +101,7 @@
 			this.btnOK.TabIndex = 5;
 			this.btnOK.Text = "OK";
 			this.btnOK.UseVisualStyleBackColor = true;
+			this.btnOK.Click += new System.EventHandler(this.btnOK_Click);
 			// 
 			// btnCancel
 			// 
@@ -109,11 +113,22 @@
 			this.btnCancel.Text = "Cancel";
 			this.btnCancel.UseVisualStyleBackColor = true;
 			// 
+			// btnApply
+			// 
+			this.btnApply.Location = new System.Drawing.Point(376, 55);
+			this.btnApply.Name = "btnApply";
+			this.btnApply.Size = new System.Drawing.Size(85, 25);
+			this.btnApply.TabIndex = 7;
+			this.btnApply.Text = "Принять";
+			this.btnApply.UseVisualStyleBackColor = true;
+			this.btnApply.Click += new System.EventHandler(this.btnApply_Click);
+			// 
 			// ChooseFontForm
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.ClientSize = new System.Drawing.Size(473, 205);
+			this.Controls.Add(this.btnApply);
 			this.Controls.Add(this.btnCancel);
 			this.Controls.Add(this.btnOK);
 			this.Controls.Add(this.labelExample);
@@ -140,5 +155,6 @@
 		private System.Windows.Forms.Label labelExample;
 		private System.Windows.Forms.Button btnOK;
 		private System.Windows.Forms.Button btnCancel;
+		private System.Windows.Forms.Button btnApply;
 	}
 }
