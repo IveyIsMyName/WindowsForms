@@ -10,6 +10,7 @@ using System.Windows.Forms;
 using System.Drawing.Text;
 using System.Runtime.InteropServices;
 using System.IO;
+using System.Diagnostics;
 
 
 namespace Clock
@@ -18,21 +19,21 @@ namespace Clock
 	{
 		Color foreground;
 		Color background;
-		PrivateFontCollection fontCollection;
+		//PrivateFontCollection fontCollection;
 		ChooseFontForm fontDialog = null;
 		public MainForm()
 		{
 			InitializeComponent();
-			LoadSettings();
 			//fontCollection = new PrivateFontCollection();
 			//fontCollection.AddFontFile(@"C:\Users\iveyi\source\repos\WindowsForms\Clock\Fonts\digital-7.ttf");
 			//labelTime.Font = new Font(fontCollection.Families[0], 42);
-			//labelTime.BackColor = Color.Black;
-			//labelTime.ForeColor = Color.Red;
+			labelTime.BackColor = Color.Black;
+			labelTime.ForeColor = Color.Red;
 			this.Location = new Point(Screen.PrimaryScreen.Bounds.Width - this.Width, 50);
 			SetVisibility(false);
-			cmShowConsole.Checked = false;
-			fontDialog = new ChooseFontForm();
+			cmShowConsole.Checked = true;
+			LoadSettings();
+			//fontDialog = new ChooseFontForm();
 		}
 		void SetVisibility(bool visible)
 		{
@@ -42,6 +43,38 @@ namespace Clock
 			this.TransparencyKey = visible ? Color.Empty : this.BackColor;
 			this.FormBorderStyle = visible ? FormBorderStyle.FixedToolWindow : FormBorderStyle.None;
 			this.ShowInTaskbar = visible;
+		}
+		void SaveSettings()
+		{
+			StreamWriter sw = new StreamWriter("Settings.ini");
+			sw.WriteLine($"{cmTopmost.Checked}");
+			sw.WriteLine($"{cmShowControls.Checked}");
+			sw.WriteLine($"{cmShowDate.Checked}");
+			sw.WriteLine($"{cmShowWeekday.Checked}");
+			sw.WriteLine($"{cmShowConsole.Checked}");
+			sw.WriteLine($"{labelTime.BackColor.ToArgb()}");
+			sw.WriteLine($"{labelTime.ForeColor.ToArgb()}");
+			sw.WriteLine($"{fontDialog.FontFileName}");
+			sw.WriteLine($"{labelTime.Font.Size}");
+			sw.Close();
+			//Process.Start("notepad", "Settings.ini");
+		}
+		void LoadSettings()
+		{
+			Directory.SetCurrentDirectory("..\\..\\Fonts");
+			StreamReader sr = new StreamReader("Settings.ini");
+			cmTopmost.Checked = bool.Parse(sr.ReadLine());
+			cmShowControls.Checked = bool.Parse(sr.ReadLine());
+			cmShowDate.Checked = bool.Parse(sr.ReadLine());
+			cmShowWeekday.Checked = bool.Parse(sr.ReadLine());
+			cmShowConsole.Checked = bool.Parse(sr.ReadLine());
+			labelTime.BackColor = Color.FromArgb(Convert.ToInt32(sr.ReadLine()));
+			labelTime.ForeColor = Color.FromArgb(Convert.ToInt32(sr.ReadLine()));
+			string fontName = sr.ReadLine();
+			int fontSize = (int)Convert.ToDouble(sr.ReadLine());
+			sr.Close();
+			fontDialog = new ChooseFontForm(fontName, fontSize);
+			labelTime.Font = fontDialog.Font;
 		}
 		private void timer_Tick(object sender, EventArgs e)
 		{
@@ -71,7 +104,6 @@ namespace Clock
 
 		private void cmExit_Click(object sender, EventArgs e)
 		{
-
 			this.Close();
 		}
 
@@ -154,21 +186,21 @@ namespace Clock
 		public static extern bool AllocConsole();
 		[DllImport("kernel32.dll")]
 		public static extern bool FreeConsole();
-		private void SaveSettings()
-		{
-			Properties.Settings.Default.ForegroundColor = foreground;
-			Properties.Settings.Default.BackgroundColor = background;
-			Properties.Settings.Default.Font = labelTime.Font;
-			Properties.Settings.Default.Save();
-		}
-		private void LoadSettings()
-		{
-			foreground = Properties.Settings.Default.ForegroundColor;
-			background = Properties.Settings.Default.BackgroundColor;
-			labelTime.ForeColor = foreground;
-			labelTime.BackColor = background;
-			labelTime.Font = Properties.Settings.Default.Font;
-		}
+		//private void SaveSettings()
+		//{
+		//	Properties.Settings.Default.ForegroundColor = foreground;
+		//	Properties.Settings.Default.BackgroundColor = background;
+		//	Properties.Settings.Default.Font = labelTime.Font;
+		//	Properties.Settings.Default.Save();
+		//}
+		//private void LoadSettings()
+		//{
+		//	foreground = Properties.Settings.Default.ForegroundColor;
+		//	background = Properties.Settings.Default.BackgroundColor;
+		//	labelTime.ForeColor = foreground;
+		//	labelTime.BackColor = background;
+		//	labelTime.Font = Properties.Settings.Default.Font;
+		//}
 
 		private void MainForm_FormClosing(object sender, FormClosingEventArgs e)
 		{
