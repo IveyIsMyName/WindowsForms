@@ -17,19 +17,25 @@ namespace Clock
 {
 	public partial class ChooseFontForm : Form
 	{
-		public Font Font {  get; set; }
+		public Font Font { get; set; }
 		public int selectedFontSize;
 		public string FontFileName { get; set; }
 		public ChooseFontForm()
 		{
 			InitializeComponent();
+
 			LoadFonts();
 			cbFonts.SelectedIndex = 0;
 			selectedFontSize = Convert.ToInt32(nudFontSize.Value);
 		}
-		public ChooseFontForm(string fontName, int fontSize)
+		public ChooseFontForm(MainForm parent, string fontName, int fontSize)
 		{
 			InitializeComponent();
+			this.Location = new Point
+				(
+				Screen.PrimaryScreen.Bounds.Width - parent.Width - this.Width,
+				parent.Location.Y*2
+				);
 			FontFileName = fontName;
 			nudFontSize.Value = fontSize;
 			LoadFonts();
@@ -75,6 +81,6 @@ namespace Clock
 		{
 			selectedFontSize = Convert.ToInt32(nudFontSize.Value);
 		}
-		
+
 	}
 }
