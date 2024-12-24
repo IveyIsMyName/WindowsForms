@@ -11,6 +11,7 @@ using System.Drawing.Text;
 using System.Runtime.InteropServices;
 using System.IO;
 using System.Diagnostics;
+using Microsoft.Win32;
 
 
 namespace Clock
@@ -61,7 +62,8 @@ namespace Clock
 		}
 		void LoadSettings()
 		{
-			Directory.SetCurrentDirectory("..\\..\\Fonts");
+			string exePath = Path.GetDirectoryName(Application.ExecutablePath);
+			Directory.SetCurrentDirectory($"{exePath}\\..\\..\\Fonts");
 			StreamReader sr = new StreamReader("Settings.ini");
 			cmTopmost.Checked = bool.Parse(sr.ReadLine());
 			cmShowControls.Checked = bool.Parse(sr.ReadLine());
@@ -209,7 +211,11 @@ namespace Clock
 
 		private void cmLoadOnWinStartup_CheckedChanged(object sender, EventArgs e)
 		{
-			
+			string keyName = "ClockPV_319";
+			RegistryKey rk = Registry.CurrentUser.OpenSubKey("Software\\Microsoft\\Windows\\CurrentVersion\\Run", true);
+			if (cmLoadOnWinStartup.Checked) rk.SetValue(keyName, Application.ExecutablePath);
+			else rk.DeleteValue(keyName, false);
+			rk.Dispose();
 		}
 	}
 }

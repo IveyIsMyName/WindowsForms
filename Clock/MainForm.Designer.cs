@@ -44,13 +44,13 @@
 			this.cmForeColor = new System.Windows.Forms.ToolStripMenuItem();
 			this.cmChooseFonts = new System.Windows.Forms.ToolStripMenuItem();
 			this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
+			this.cmLoadOnWinStartup = new System.Windows.Forms.ToolStripMenuItem();
 			this.cmExit = new System.Windows.Forms.ToolStripMenuItem();
 			this.timer = new System.Windows.Forms.Timer(this.components);
 			this.checkBoxShowDate = new System.Windows.Forms.CheckBox();
 			this.btnHideControls = new System.Windows.Forms.Button();
 			this.cbShowWeekDay = new System.Windows.Forms.CheckBox();
 			this.notifyIcon = new System.Windows.Forms.NotifyIcon(this.components);
-			this.cmLoadOnWinStartup = new System.Windows.Forms.ToolStripMenuItem();
 			this.contextMenu.SuspendLayout();
 			this.SuspendLayout();
 			// 
@@ -84,7 +84,7 @@
             this.cmLoadOnWinStartup,
             this.cmExit});
 			this.contextMenu.Name = "contextMenu";
-			this.contextMenu.Size = new System.Drawing.Size(248, 266);
+			this.contextMenu.Size = new System.Drawing.Size(248, 238);
 			// 
 			// cmTopmost
 			// 
@@ -148,14 +148,14 @@
 			// cmBackColor
 			// 
 			this.cmBackColor.Name = "cmBackColor";
-			this.cmBackColor.Size = new System.Drawing.Size(224, 26);
+			this.cmBackColor.Size = new System.Drawing.Size(209, 26);
 			this.cmBackColor.Text = "Background color";
 			this.cmBackColor.Click += new System.EventHandler(this.cmBackColor_Click);
 			// 
 			// cmForeColor
 			// 
 			this.cmForeColor.Name = "cmForeColor";
-			this.cmForeColor.Size = new System.Drawing.Size(224, 26);
+			this.cmForeColor.Size = new System.Drawing.Size(209, 26);
 			this.cmForeColor.Text = "Foreground color";
 			this.cmForeColor.Click += new System.EventHandler(this.cmForeColor_Click);
 			// 
@@ -170,6 +170,14 @@
 			// 
 			this.toolStripSeparator2.Name = "toolStripSeparator2";
 			this.toolStripSeparator2.Size = new System.Drawing.Size(244, 6);
+			// 
+			// cmLoadOnWinStartup
+			// 
+			this.cmLoadOnWinStartup.CheckOnClick = true;
+			this.cmLoadOnWinStartup.Name = "cmLoadOnWinStartup";
+			this.cmLoadOnWinStartup.Size = new System.Drawing.Size(247, 24);
+			this.cmLoadOnWinStartup.Text = "Load on Windows startup";
+			this.cmLoadOnWinStartup.CheckedChanged += new System.EventHandler(this.cmLoadOnWinStartup_CheckedChanged);
 			// 
 			// cmExit
 			// 
@@ -226,14 +234,6 @@
 			this.notifyIcon.Visible = true;
 			this.notifyIcon.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.notifyIcon_MouseDoubleClick);
 			// 
-			// cmLoadOnWinStartup
-			// 
-			this.cmLoadOnWinStartup.CheckOnClick = true;
-			this.cmLoadOnWinStartup.Name = "cmLoadOnWinStartup";
-			this.cmLoadOnWinStartup.Size = new System.Drawing.Size(247, 24);
-			this.cmLoadOnWinStartup.Text = "Load on Windows startup";
-			this.cmLoadOnWinStartup.CheckedChanged += new System.EventHandler(this.cmLoadOnWinStartup_CheckedChanged);
-			// 
 			// MainForm
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
@@ -243,6 +243,7 @@
 			this.Controls.Add(this.btnHideControls);
 			this.Controls.Add(this.checkBoxShowDate);
 			this.Controls.Add(this.labelTime);
+			this.DoubleBuffered = true;
 			this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
 			this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
 			this.Name = "MainForm";
