@@ -18,6 +18,14 @@ namespace Clock
 {
 	public partial class MainForm : Form
 	{
+		public class Alarm
+		{
+			public DateTime Time { get; set; }
+			public string Message { get; set; }
+		}
+		private List<Alarm> alarms = new List<Alarm>();
+		private System.Windows.Forms.Timer alarmTimer;
+
 		Color foreground;
 		Color background;
 		//PrivateFontCollection fontCollection;
@@ -25,9 +33,12 @@ namespace Clock
 		public MainForm()
 		{
 			InitializeComponent();
-			//fontCollection = new PrivateFontCollection();
-			//fontCollection.AddFontFile(@"C:\Users\iveyi\source\repos\WindowsForms\Clock\Fonts\digital-7.ttf");
-			//labelTime.Font = new Font(fontCollection.Families[0], 42);
+
+			alarmTimer = new System.Windows.Forms.Timer();
+			alarmTimer.Interval = 1000; //Проверяем каждую секунду
+			alarmTimer.Tick += new EventHandler(alarmTimer_Tick);
+			alarmTimer.Start();
+
 			labelTime.BackColor = Color.Black;
 			labelTime.ForeColor = Color.Red;
 			this.Location = new Point(Screen.PrimaryScreen.Bounds.Width - this.Width, 50);
@@ -35,6 +46,32 @@ namespace Clock
 			cmShowConsole.Checked = true;
 			LoadSettings();
 			//fontDialog = new ChooseFontForm();
+		}
+		public void AddAlarm(DateTime time, string message)
+		{
+			Alarm newAlarm = new Alarm { Time = time, Message = message };
+			alarms.Add(newAlarm);
+		}
+		private void alarmTimer_Tick(object sender, EventArgs e)
+		{
+			DateTime now = DateTime.Now;
+			List<Alarm> alarmsToTrigger = new List<Alarm>();
+			foreach (Alarm alarm in alarms)
+			{
+				if (now >= alarm.Time) alarmsToTrigger.Add(alarm);
+			}
+			foreach (Alarm alarm in alarmsToTrigger)
+			{
+				//Удаляем сработавший будильник из списка
+				alarms.Remove(alarm);
+				// Срабатывание будильника:
+				MessageBox.Show(!string.IsNullOrEmpty(alarm.Message) ? alarm.Message : "Alarm!!!!", "Alarm", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+				System.Media.SystemSounds.Beep.Play();
+			}
+		}
+		public void RemoveAlarm(DateTime alarmTime)
+		{
+			alarms.RemoveAll(a => a.Time == alarmTime);
 		}
 		void SetVisibility(bool visible)
 		{
@@ -172,10 +209,10 @@ namespace Clock
 
 		private void cmChooseFonts_Click(object sender, EventArgs e)
 		{
-				if (fontDialog.ShowDialog() == DialogResult.OK)
-				{
-					labelTime.Font = fontDialog.Font;
-				}
+			if (fontDialog.ShowDialog() == DialogResult.OK)
+			{
+				labelTime.Font = fontDialog.Font;
+			}
 		}
 		private void cmShowConsole_CheckedChanged(object sender, EventArgs e)
 		{
@@ -216,6 +253,20 @@ namespace Clock
 			if (cmLoadOnWinStartup.Checked) rk.SetValue(keyName, Application.ExecutablePath);
 			else rk.DeleteValue(keyName, false);
 			rk.Dispose();
+		}
+
+		private void cmAlarms_Click(object sender, EventArgs e)
+		{
+			AlarmForm alarmForm = new AlarmForm(this);
+			alarmForm.StartPosition = FormStartPosition.Manual;
+			//int x = this.Location.X - alarmForm.Width;
+			//int y = this.Location.Y;
+			alarmForm.Location = new Point
+				(
+				this.Location.X - alarmForm.Width, 
+				this.Location.Y * 2
+				);
+			alarmForm.Show();
 		}
 	}
 }
