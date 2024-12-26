@@ -259,8 +259,7 @@ namespace Clock
 		{
 			AlarmForm alarmForm = new AlarmForm(this);
 			alarmForm.StartPosition = FormStartPosition.Manual;
-			//int x = this.Location.X - alarmForm.Width;
-			//int y = this.Location.Y;
+			
 			alarmForm.Location = new Point
 				(
 				this.Location.X - alarmForm.Width, 
