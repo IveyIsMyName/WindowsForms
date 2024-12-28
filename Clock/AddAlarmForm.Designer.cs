@@ -36,6 +36,9 @@
 			this.btnCancel = new System.Windows.Forms.Button();
 			this.btnFile = new System.Windows.Forms.Button();
 			this.clbWeekDays = new System.Windows.Forms.CheckedListBox();
+			this.rtbMessage = new System.Windows.Forms.RichTextBox();
+			this.lblMessage = new System.Windows.Forms.Label();
+			this.backgroundWorker1 = new System.ComponentModel.BackgroundWorker();
 			this.SuspendLayout();
 			// 
 			// cbUseDate
@@ -71,6 +74,7 @@
 			this.dtpTime.ShowUpDown = true;
 			this.dtpTime.Size = new System.Drawing.Size(200, 38);
 			this.dtpTime.TabIndex = 2;
+			this.dtpTime.Value = new System.DateTime(2024, 12, 27, 9, 42, 54, 0);
 			// 
 			// lblAlarmFile
 			// 
@@ -110,6 +114,7 @@
 			this.btnFile.TabIndex = 6;
 			this.btnFile.Text = "Choose file";
 			this.btnFile.UseVisualStyleBackColor = true;
+			this.btnFile.Click += new System.EventHandler(this.btnFile_Click);
 			// 
 			// clbWeekDays
 			// 
@@ -130,11 +135,30 @@
 			this.clbWeekDays.Size = new System.Drawing.Size(406, 38);
 			this.clbWeekDays.TabIndex = 7;
 			// 
+			// rtbMessage
+			// 
+			this.rtbMessage.Location = new System.Drawing.Point(16, 163);
+			this.rtbMessage.Name = "rtbMessage";
+			this.rtbMessage.Size = new System.Drawing.Size(403, 78);
+			this.rtbMessage.TabIndex = 8;
+			this.rtbMessage.Text = "";
+			// 
+			// lblMessage
+			// 
+			this.lblMessage.AutoSize = true;
+			this.lblMessage.Location = new System.Drawing.Point(13, 141);
+			this.lblMessage.Name = "lblMessage";
+			this.lblMessage.Size = new System.Drawing.Size(141, 16);
+			this.lblMessage.TabIndex = 9;
+			this.lblMessage.Text = "Введите сообщение:";
+			// 
 			// AddAlarmForm
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.ClientSize = new System.Drawing.Size(437, 298);
+			this.Controls.Add(this.lblMessage);
+			this.Controls.Add(this.rtbMessage);
 			this.Controls.Add(this.clbWeekDays);
 			this.Controls.Add(this.btnFile);
 			this.Controls.Add(this.btnCancel);
@@ -155,11 +179,14 @@
 
 		private System.Windows.Forms.CheckBox cbUseDate;
 		private System.Windows.Forms.DateTimePicker dtpDate;
-		private System.Windows.Forms.DateTimePicker dtpTime;
 		private System.Windows.Forms.Label lblAlarmFile;
 		private System.Windows.Forms.Button btnOK;
 		private System.Windows.Forms.Button btnCancel;
 		private System.Windows.Forms.Button btnFile;
 		private System.Windows.Forms.CheckedListBox clbWeekDays;
+		public System.Windows.Forms.DateTimePicker dtpTime;
+		private System.Windows.Forms.RichTextBox rtbMessage;
+		private System.Windows.Forms.Label lblMessage;
+		private System.ComponentModel.BackgroundWorker backgroundWorker1;
 	}
 }
