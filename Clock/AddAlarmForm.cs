@@ -34,15 +34,15 @@ namespace Clock
 			Week week = new Week(clbWeekDays.Items.Cast<object>().Select((item, index) => clbWeekDays.GetItemChecked(index)).ToArray());
 			Console.WriteLine(week);
 			Alarm.Date = dtpDate.Enabled ? dtpDate.Value : DateTime.MinValue;
-			Alarm.Time = dtpTime.Value.TimeOfDay;
+			Alarm.Time = dtpTime.Value;
 			Alarm.Weekdays = week;
 			Alarm.Filename = lblAlarmFile.Text;
 			Alarm.Message = rtbMessage.Text;
-			if (Alarm.Filename == "File:")
-			{
-				this.DialogResult = DialogResult.None;
-				MessageBox.Show(this, "Выберите звуковой файл", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-			}
+			//if (Alarm.Filename == "File:")
+			//{
+			//	this.DialogResult = DialogResult.None;
+			//	MessageBox.Show(this, "Выберите звуковой файл", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+			//}
 		}
 
 		private void btnFile_Click(object sender, EventArgs e)

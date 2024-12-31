@@ -12,6 +12,7 @@ using System.Runtime.InteropServices;
 using System.IO;
 using System.Diagnostics;
 using Microsoft.Win32;
+using System.Security.Claims;
 
 
 namespace Clock
@@ -20,7 +21,8 @@ namespace Clock
 	{
 		Color foreground;
 		Color background;
-		//PrivateFontCollection fontCollection;
+		private List<Alarm> listAlarms = new List<Alarm>();
+		Alarm alarm;
 		ChooseFontForm fontDialog = null;
 		AlarmsForm alarms = null;
 		public MainForm()
@@ -35,8 +37,10 @@ namespace Clock
 			SetVisibility(false);
 			cmShowConsole.Checked = true;
 			LoadSettings();
-			//fontDialog = new ChooseFontForm();
+		
 			alarms = new AlarmsForm();
+			alarm = new Alarm();
+			NewAlarm();
 		}
 		void SetVisibility(bool visible)
 		{
@@ -80,6 +84,14 @@ namespace Clock
 			fontDialog = new ChooseFontForm(this, fontName, fontSize);
 			labelTime.Font = fontDialog.Font;
 		}
+		void NewAlarm()
+		{
+			List<Alarm> alarmsToTrigger = new List<Alarm>();
+			foreach (Alarm alarm in listAlarms)
+			{
+				if (alarm.Time.TimeOfDay > DateTime.Now.TimeOfDay) alarmsToTrigger.Add(alarm);
+			}
+		}
 		private void timer_Tick(object sender, EventArgs e)
 		{
 			labelTime.Text = DateTime.Now.ToString("hh:mm:ss tt", System.Globalization.CultureInfo.InvariantCulture);
@@ -94,6 +106,16 @@ namespace Clock
 				labelTime.Text += DateTime.Now.DayOfWeek;
 			}
 			notifyIcon.Text = labelTime.Text;
+			if (
+				alarm != null && alarm.Time != null &&
+				DateTime.Now.Hour == alarm.Time.Hour &&
+				DateTime.Now.Minute == alarm.Time.Minute &&
+				DateTime.Now.Second == alarm.Time.Second
+				)
+			{
+				MessageBox.Show("ALARM!!!", "Alarm", MessageBoxButtons.OK, MessageBoxIcon.Information);
+			}
+			
 		}
 
 		private void btnHideControls_Click(object sender, EventArgs e)
@@ -227,6 +249,7 @@ namespace Clock
 				this.Location.X - alarms.Width,
 				this.Location.Y * 2
 				);
+			NewAlarm();
 			alarms.ShowDialog();
 		}
 	}
