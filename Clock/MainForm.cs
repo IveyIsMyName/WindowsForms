@@ -21,7 +21,7 @@ namespace Clock
 	{
 		Color foreground;
 		Color background;
-		private List<Alarm> listAlarms = new List<Alarm>();
+		private List<Alarm> alarmsList = new List<Alarm>();
 		Alarm alarm;
 		ChooseFontForm fontDialog = null;
 		AlarmsForm alarms = null;
@@ -86,10 +86,10 @@ namespace Clock
 		}
 		void NewAlarm()
 		{
-			List<Alarm> alarmsToTrigger = new List<Alarm>();
-			foreach (Alarm alarm in listAlarms)
+			Alarm newAlarm = new Alarm();
+			foreach (Alarm alarm in alarmsList)
 			{
-				if (alarm.Time.TimeOfDay > DateTime.Now.TimeOfDay) alarmsToTrigger.Add(alarm);
+				if (alarm.Time.TimeOfDay > DateTime.Now.TimeOfDay) alarmsList.Add(newAlarm);
 			}
 		}
 		private void timer_Tick(object sender, EventArgs e)
