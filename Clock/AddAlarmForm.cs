@@ -18,7 +18,8 @@ namespace Clock
 		{
 			InitializeComponent();
 			dtpDate.Enabled = false;
-			Alarm = new Alarm();
+			dtpTime.Value = DateTime.Now;
+			//Alarm = new Alarm();
 			openFileDialog = new OpenFileDialog();
 			openFileDialog.Filter = "All Sound files (*.mp3, *.wav, *.flac) | *.mp3; *.wav; *.flac | MP3 (*.mp3) | *.mp3 | WAV (*.wav) | *.wav | Flac (*.flac) | *.flac";
 		}
@@ -33,19 +34,19 @@ namespace Clock
 			this.DialogResult = DialogResult.OK;
 			Week week = new Week(clbWeekDays.Items.Cast<object>().Select((item, index) => clbWeekDays.GetItemChecked(index)).ToArray());
 			Console.WriteLine(week);
-			//Alarm = new Alarm
-			//{
-			//	Date = dtpDate.Enabled ? dtpDate.Value : DateTime.MinValue,
-			//	Time = dtpTime.Value.TimeOfDay,
-			//	Weekdays = week,
-			//	Filename = lblAlarmFile.Text,
-			//	Message = rtbMessage.Text
-			//};
-			Alarm.Date = dtpDate.Enabled ? dtpDate.Value : DateTime.MinValue;
-			Alarm.Time = dtpTime.Value.TimeOfDay;
-			Alarm.Weekdays = week;
-			Alarm.Filename = lblAlarmFile.Text;
-			Alarm.Message = rtbMessage.Text;
+			Alarm = new Alarm
+			{
+				Date = dtpDate.Enabled ? dtpDate.Value : DateTime.MinValue,
+				Time = dtpTime.Value.TimeOfDay,
+				Weekdays = week,
+				Filename = lblAlarmFile.Text,
+				Message = rtbMessage.Text
+			};
+			//Alarm.Date = dtpDate.Enabled ? dtpDate.Value : DateTime.MinValue;
+			//Alarm.Time = dtpTime.Value.TimeOfDay;
+			//Alarm.Weekdays = week;
+			//Alarm.Filename = lblAlarmFile.Text;
+			//Alarm.Message = rtbMessage.Text;
 			rtbMessage.Clear();
 			if (Alarm.Filename == "File:")
 			{

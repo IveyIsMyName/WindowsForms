@@ -13,8 +13,23 @@ namespace Clock
 		public Week Weekdays { get; set; }
 		public string Filename { get; set; }
 		public string Message { get; set; }
-
-		
+		public Alarm() { }
+		public Alarm(DateTime date, TimeSpan time, Week week, string Filename, string Message)
+		{
+			this.Date = date;
+			this.Time = time;
+			this.Weekdays = week;
+			this.Filename = Filename;
+			this.Message = Message;
+		}
+		public Alarm(Alarm other)
+		{
+			this.Date = other.Date;
+			this.Time = other.Time;
+			this.Weekdays = other.Weekdays;
+			this.Filename = other.Filename;
+			this.Message = other.Message;
+		}
 		public override string ToString()
 		{
 			string info = "";
@@ -27,10 +42,9 @@ namespace Clock
 			info += $"{Message}\t";
 			return info;
 		}
-		
 		public int CompareTo(Alarm other)
 		{
-			Console.WriteLine($"CompareTo called: {this.Time} vs {other.Time}");
+			//Console.WriteLine($"CompareTo called: {this.Time} vs {other.Time}");
 			return this.Time.CompareTo(other.Time);
 		}
 	}

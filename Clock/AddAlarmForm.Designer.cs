@@ -74,7 +74,7 @@
 			this.dtpTime.ShowUpDown = true;
 			this.dtpTime.Size = new System.Drawing.Size(200, 38);
 			this.dtpTime.TabIndex = 2;
-			this.dtpTime.Value = new System.DateTime(2024, 12, 27, 9, 42, 54, 0);
+			this.dtpTime.Value = new System.DateTime(2025, 1, 11, 11, 25, 19, 0);
 			// 
 			// lblAlarmFile
 			// 
