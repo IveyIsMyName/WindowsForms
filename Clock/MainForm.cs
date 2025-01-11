@@ -85,8 +85,6 @@ namespace Clock
 		Alarm FindNextAlarm()
 		{
 			Alarm[] actualAlarms = alarms.LB_Alarms.Items.Cast<Alarm>().Where(a => a.Time > DateTime.Now.TimeOfDay).ToArray();
-			//Alarm nextAlarm = new Alarm(actualAlarms.Min());
-			//return nextAlarm;
 			return actualAlarms.Min();
 		}
 		private void timer_Tick(object sender, EventArgs e)

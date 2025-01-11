@@ -13,7 +13,10 @@ namespace Clock
 		public Week Weekdays { get; set; }
 		public string Filename { get; set; }
 		public string Message { get; set; }
-		public Alarm() { }
+		public Alarm() 
+		{
+			Weekdays = new Week();
+		}
 		public Alarm(DateTime date, TimeSpan time, Week week, string Filename, string Message)
 		{
 			this.Date = date;

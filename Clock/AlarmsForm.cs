@@ -39,7 +39,15 @@ namespace Clock
 			if(result == DialogResult.OK)
 			{
 				lbAlarms.Items.Add(addAlarm.Alarm);
-				//lbAlarms.Items.Add(newAlarm);
+			}
+		}
+
+		private void lbAlarms_DoubleClick(object sender, EventArgs e)
+		{
+			addAlarm.Alarm = lbAlarms.SelectedItem as Alarm;
+			if(addAlarm.ShowDialog() == DialogResult.OK)
+			{
+				lbAlarms.Items[lbAlarms.SelectedIndex] = addAlarm.Alarm;
 			}
 		}
 	}
