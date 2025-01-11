@@ -14,6 +14,15 @@ namespace Clock
 	{
 		AddAlarmForm addAlarm = null;
 		OpenFileDialog openFile	= null;
+		public ListBox LB_Alarms
+		{
+			get => lbAlarms;
+		}
+		//Alarm newAlarm = new Alarm(Date, Time)
+		//{
+		//	Date = DateTime.Now,
+		//	Time = TimeSpan.Zero,
+		//};
 		public AlarmsForm()
 		{
 			InitializeComponent();
@@ -31,6 +40,7 @@ namespace Clock
 			{
 				
 				lbAlarms.Items.Add(addAlarm.Alarm);
+				//lbAlarms.Items.Add(newAlarm);
 			}
 		}
 	}

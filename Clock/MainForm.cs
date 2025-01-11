@@ -21,10 +21,10 @@ namespace Clock
 	{
 		Color foreground;
 		Color background;
-		private List<Alarm> alarmsList = new List<Alarm>();
-		Alarm alarm;
+		//Alarm alarm;
 		ChooseFontForm fontDialog = null;
 		AlarmsForm alarms = null;
+		Alarm nextAlarm = null;
 		public MainForm()
 		{
 			InitializeComponent();
@@ -37,10 +37,8 @@ namespace Clock
 			SetVisibility(false);
 			cmShowConsole.Checked = true;
 			LoadSettings();
-		
 			alarms = new AlarmsForm();
-			alarm = new Alarm();
-			NewAlarm();
+			//alarm = new Alarm();
 		}
 		void SetVisibility(bool visible)
 		{
@@ -84,14 +82,7 @@ namespace Clock
 			fontDialog = new ChooseFontForm(this, fontName, fontSize);
 			labelTime.Font = fontDialog.Font;
 		}
-		void NewAlarm()
-		{
-			Alarm newAlarm = new Alarm();
-			foreach (Alarm alarm in alarmsList)
-			{
-				if (alarm.Time.TimeOfDay > DateTime.Now.TimeOfDay) alarmsList.Add(newAlarm);
-			}
-		}
+
 		private void timer_Tick(object sender, EventArgs e)
 		{
 			labelTime.Text = DateTime.Now.ToString("hh:mm:ss tt", System.Globalization.CultureInfo.InvariantCulture);
@@ -106,14 +97,17 @@ namespace Clock
 				labelTime.Text += DateTime.Now.DayOfWeek;
 			}
 			notifyIcon.Text = labelTime.Text;
+
+			if (alarms.LB_Alarms.Items.Count > 0) nextAlarm = alarms.LB_Alarms.Items.Cast<Alarm>().ToArray().Min();
+			//if (nextAlarm != null) Console.WriteLine(nextAlarm);
 			if (
-				alarm != null && alarm.Time != null &&
-				DateTime.Now.Hour == alarm.Time.Hour &&
-				DateTime.Now.Minute == alarm.Time.Minute &&
-				DateTime.Now.Second == alarm.Time.Second
+				nextAlarm != null && nextAlarm.Time != null &&
+				DateTime.Now.Hour == nextAlarm.Time.Hours &&
+				DateTime.Now.Minute == nextAlarm.Time.Minutes &&
+				DateTime.Now.Second == nextAlarm.Time.Seconds
 				)
 			{
-				MessageBox.Show("ALARM!!!", "Alarm", MessageBoxButtons.OK, MessageBoxIcon.Information);
+				MessageBox.Show(!string.IsNullOrEmpty(nextAlarm.Message) ? nextAlarm.Message : "Alarm!!!!", "Alarm", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
 			}
 			
 		}
@@ -196,10 +190,10 @@ namespace Clock
 
 		private void cmChooseFonts_Click(object sender, EventArgs e)
 		{
-				if (fontDialog.ShowDialog() == DialogResult.OK)
-				{
-					labelTime.Font = fontDialog.Font;
-				}
+			if (fontDialog.ShowDialog() == DialogResult.OK)
+			{
+				labelTime.Font = fontDialog.Font;
+			}
 		}
 		private void cmShowConsole_CheckedChanged(object sender, EventArgs e)
 		{
@@ -249,7 +243,7 @@ namespace Clock
 				this.Location.X - alarms.Width,
 				this.Location.Y * 2
 				);
-			NewAlarm();
+
 			alarms.ShowDialog();
 		}
 	}
