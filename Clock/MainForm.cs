@@ -37,7 +37,7 @@ namespace Clock
 			cmShowConsole.Checked = true;
 			LoadSettings();
 			alarms = new AlarmsForm();
-			FindNextAlarm();
+			//FindNextAlarm();
 			//alarm = new Alarm();
 		}
 		void SetVisibility(bool visible)
@@ -107,10 +107,9 @@ namespace Clock
 			}
 			notifyIcon.Text = labelTime.Text;
 
-			if (alarms.LB_Alarms.Items.Count > 0) nextAlarm = FindNextAlarm(); //nextAlarm = alarms.LB_Alarms.Items.Cast<Alarm>().ToArray().Min();
 			if (nextAlarm != null) Console.WriteLine(nextAlarm);
 			if (
-				nextAlarm != null && DateTime.Now.TimeOfDay >= nextAlarm.Time 
+				nextAlarm != null && DateTime.Now.TimeOfDay == nextAlarm.Time 
 				//DateTime.Now.Hour == nextAlarm.Time.Hours &&
 				//DateTime.Now.Minute == nextAlarm.Time.Minutes &&
 				//DateTime.Now.Second == nextAlarm.Time.Seconds
@@ -119,8 +118,8 @@ namespace Clock
 				Console.WriteLine("ALARM!!!");
 				MessageBox.Show(!string.IsNullOrEmpty(nextAlarm.Message) ? nextAlarm.Message : "Alarm!!!!", "Alarm", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
 				alarms.LB_Alarms.Items.Remove(nextAlarm);
-				nextAlarm = null;
 			}
+			if (alarms.LB_Alarms.Items.Count > 0) nextAlarm = FindNextAlarm(); //nextAlarm = alarms.LB_Alarms.Items.Cast<Alarm>().ToArray().Min();
 		}
 
 		private void btnHideControls_Click(object sender, EventArgs e)
