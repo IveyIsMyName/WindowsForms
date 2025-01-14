@@ -27,9 +27,6 @@ namespace Clock
 		public MainForm()
 		{
 			InitializeComponent();
-			//fontCollection = new PrivateFontCollection();
-			//fontCollection.AddFontFile(@"C:\Users\iveyi\source\repos\WindowsForms\Clock\Fonts\digital-7.ttf");
-			//labelTime.Font = new Font(fontCollection.Families[0], 42);
 			labelTime.BackColor = Color.Black;
 			labelTime.ForeColor = Color.Red;
 			this.Location = new Point(Screen.PrimaryScreen.Bounds.Width - this.Width, 50);
@@ -37,8 +34,6 @@ namespace Clock
 			cmShowConsole.Checked = true;
 			LoadSettings();
 			alarms = new AlarmsForm();
-			//FindNextAlarm();
-			//alarm = new Alarm();
 		}
 		void SetVisibility(bool visible)
 		{
@@ -62,7 +57,6 @@ namespace Clock
 			sw.WriteLine($"{fontDialog.FontFileName}");
 			sw.WriteLine($"{labelTime.Font.Size}");
 			sw.Close();
-			//Process.Start("notepad", "Settings.ini");
 		}
 		void LoadSettings()
 		{
@@ -106,19 +100,20 @@ namespace Clock
 				labelTime.Text += DateTime.Now.DayOfWeek;
 			}
 			notifyIcon.Text = labelTime.Text;
-
-			if (nextAlarm != null) Console.WriteLine(nextAlarm);
 			if (
-				nextAlarm != null && DateTime.Now.TimeOfDay == nextAlarm.Time 
-				//DateTime.Now.Hour == nextAlarm.Time.Hours &&
-				//DateTime.Now.Minute == nextAlarm.Time.Minutes &&
-				//DateTime.Now.Second == nextAlarm.Time.Seconds
+				nextAlarm != null && 
+				nextAlarm.Time.Hours == DateTime.Now.Hour && 
+				nextAlarm.Time.Minutes == DateTime.Now.Minute && 
+				nextAlarm.Time.Seconds == DateTime.Now.Second 
 				)
 			{
+				System.Threading.Thread.Sleep(1000);
 				Console.WriteLine("ALARM!!!");
 				MessageBox.Show(!string.IsNullOrEmpty(nextAlarm.Message) ? nextAlarm.Message : "Alarm!!!!", "Alarm", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+				nextAlarm = null;
 				alarms.LB_Alarms.Items.Remove(nextAlarm);
 			}
+			if (nextAlarm != null) Console.WriteLine(nextAlarm);
 			if (alarms.LB_Alarms.Items.Count > 0) nextAlarm = FindNextAlarm(); //nextAlarm = alarms.LB_Alarms.Items.Cast<Alarm>().ToArray().Min();
 		}
 
