@@ -48,6 +48,11 @@ namespace Clock
 		public int CompareTo(Alarm other)
 		{
 			//Console.WriteLine($"CompareTo called: {this.Time} vs {other.Time}");
+			if (other == null)
+			{
+				Console.WriteLine("CompareTo: other is null");
+				return 1;
+			}
 			return this.Time.CompareTo(other.Time);
 		}
 	}
