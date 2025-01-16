@@ -88,6 +88,10 @@ namespace Clock
 			
 			return actualAlarms.Min();
 		}
+		bool CompareDates(DateTime date1, DateTime date2)
+		{
+			return date1.Year == date2.Year && date1.Month == date2.Month && date1.Day == date2.Day;
+		}
 		void PlayAlarm()
 		{
 			axWindowsMediaPlayer.URL = nextAlarm.Filename;
@@ -110,11 +114,16 @@ namespace Clock
 			}
 			notifyIcon.Text = labelTime.Text;
 			if (
-				nextAlarm != null &&
+				nextAlarm != null && 
+				(
+				nextAlarm.Date == DateTime.MinValue ? 
+				nextAlarm.Weekdays.Contains(DateTime.Now.DayOfWeek) : 
+				CompareDates(nextAlarm.Date, DateTime.Now)
+				) &&
 				nextAlarm.Time.Hours == DateTime.Now.Hour && 
 				nextAlarm.Time.Minutes == DateTime.Now.Minute && 
-				nextAlarm.Time.Seconds == DateTime.Now.Second &&
-				nextAlarm.Weekdays.IsSet(DateTime.Now.DayOfWeek)
+				nextAlarm.Time.Seconds == DateTime.Now.Second
+				//nextAlarm.Weekdays.IsSet(DateTime.Now.DayOfWeek)
 				)
 			{
 				System.Threading.Thread.Sleep(1000);
@@ -122,7 +131,7 @@ namespace Clock
 				//MessageBox.Show(!string.IsNullOrEmpty(nextAlarm.Message) ? nextAlarm.Message : "Alarm!!!!", "Alarm", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
 				PlayAlarm();
 				nextAlarm = null;
-				alarms.LB_Alarms.Items.Remove(nextAlarm);
+				//alarms.LB_Alarms.Items.Remove(nextAlarm);
 			}
 			if (nextAlarm != null) Console.WriteLine(nextAlarm);
 			if (alarms.LB_Alarms.Items.Count > 0) nextAlarm = FindNextAlarm(); //nextAlarm = alarms.LB_Alarms.Items.Cast<Alarm>().ToArray().Min();
@@ -250,7 +259,8 @@ namespace Clock
 		
 		void SetPlayerInvisible(object sender, AxWMPLib._WMPOCXEvents_PlayStateChangeEvent e)
 		{
-			if (axWindowsMediaPlayer.playState == WMPLib.WMPPlayState.wmppsMediaEnded || axWindowsMediaPlayer.playState == WMPLib.WMPPlayState.wmppsStopped)
+			if (axWindowsMediaPlayer.playState == WMPLib.WMPPlayState.wmppsMediaEnded || 
+				axWindowsMediaPlayer.playState == WMPLib.WMPPlayState.wmppsStopped)
 				axWindowsMediaPlayer.Visible = false;
 		}
 	}

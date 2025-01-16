@@ -35,6 +35,13 @@ namespace Clock
 
 			return weekDays;
 		}
+		public bool Contains(DayOfWeek day)
+		{
+			int iDay = (int)day;
+			iDay -= 1;
+			if (iDay == -1) iDay = 6;
+			return (week & (1 <<iDay)) != 0;	
+		}
 		public override string ToString()
 		{
 			string weekdays = "";

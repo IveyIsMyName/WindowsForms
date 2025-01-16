@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Policy;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -45,6 +46,7 @@ namespace Clock
 			info += $"{Message}\t";
 			return info;
 		}
+		
 		public int CompareTo(Alarm other)
 		{
 			//Console.WriteLine($"CompareTo called: {this.Time} vs {other.Time}");

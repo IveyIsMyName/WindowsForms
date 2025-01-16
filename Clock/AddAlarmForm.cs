@@ -19,37 +19,37 @@ namespace Clock
 			InitializeComponent();
 			dtpDate.Enabled = false;
 			dtpTime.Value = DateTime.Now;
-			//Alarm = new Alarm();
 			openFileDialog = new OpenFileDialog();
-			openFileDialog.Filter = "All Sound files (*.mp3, *.wav, *.flac) | *.mp3; *.wav; *.flac | MP3 (*.mp3) | *.mp3 | WAV (*.wav) | *.wav | Flac (*.flac) | *.flac";
+			openFileDialog.Filter = "All Sound files (*.mp3, *.wav, *.flac) | *.mp3; *.wav; *.flac; | MP3 (*.mp3) | *.mp3 | WAV (*.wav) | *.wav | Flac (*.flac) | *.flac";
 		}
 
 		private void cbUseDate_CheckedChanged(object sender, EventArgs e)
 		{
 			dtpDate.Enabled = cbUseDate.Checked;
+			clbWeekDays.Enabled = !cbUseDate.Checked;
 		}
 		void SetWeekDays(bool[] week)
 		{
-			for (int i = 0; i<clbWeekDays.Items.Count; i++)
+			for (int i = 0; i < clbWeekDays.Items.Count; i++)
 			{
 				clbWeekDays.SetItemChecked(i, week[i]);
 			}
 		}
 		private void btnOK_Click(object sender, EventArgs e)
 		{
-			//Week week = new Week(clbWeekDays.Items.Cast<object>().Select((item, index) => clbWeekDays.GetItemChecked(index)).ToArray());
-			bool[] daysSelected = clbWeekDays.Items
-				.Cast<object>()
-				.Select((item, index) =>
-				clbWeekDays.GetItemChecked(index))
-				.ToArray();
-			if (!daysSelected.Any(day => day))
-			{
-				this.DialogResult = DialogResult.None;
-				MessageBox.Show(this, "Пожалуйста, выберите хотя бы один день недели", "Предупреждение", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-				return;
-			}
-			Week week = new Week(daysSelected);
+			Week week = new Week(clbWeekDays.Items.Cast<object>().Select((item, index) => clbWeekDays.GetItemChecked(index)).ToArray());
+			//bool[] daysSelected = clbWeekDays.Items
+			//	.Cast<object>()
+			//	.Select((item, index) =>
+			//	clbWeekDays.GetItemChecked(index))
+			//	.ToArray();
+			//if (!daysSelected.Any(day => day))
+			//{
+			//	this.DialogResult = DialogResult.None;
+			//	MessageBox.Show(this, "Пожалуйста, выберите хотя бы один день недели", "Предупреждение", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+			//	return;
+			//}
+			//Week week = new Week(daysSelected);
 			Console.WriteLine(week);
 			Alarm = new Alarm
 			{
@@ -70,21 +70,25 @@ namespace Clock
 				MessageBox.Show(this, "Выберите звуковой файл", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
 				return;
 			}
-	
+
 			this.DialogResult = DialogResult.OK;
 			rtbMessage.Clear();
 		}
 
 		private void btnFile_Click(object sender, EventArgs e)
 		{
-			if(openFileDialog.ShowDialog() == DialogResult.OK)
+			if (openFileDialog.ShowDialog() == DialogResult.OK)
 			{
 				lblAlarmFile.Text = openFileDialog.FileName;
-			}	
+			}
 		}
 
 		private void AddAlarmForm_Load(object sender, EventArgs e)
 		{
+			for (int i = 0; i < clbWeekDays.Items.Count; i++)
+			{
+				clbWeekDays.SetItemChecked(i, true);
+			}
 			if (Alarm != null)
 			{
 				if (Alarm.Date != DateTime.MinValue)
