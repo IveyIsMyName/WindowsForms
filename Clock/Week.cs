@@ -17,18 +17,12 @@ namespace Clock
 		{
 			CompressWeekDays(days);
 		}
-		//public void SetDay(int day)
-		//{
-		//	if (day > 6) return;
-		//	week |= (byte)(1 << day);
-		//}
+		
 		public void CompressWeekDays(bool[] days)
 		{
 			for (byte i = 0; i < days.Length; i++)
 			{
-				//byte day = 1;
 				if (days[i]) week |= (byte)(1 << i);
-				//if(days[i])SetDay(i);
 			}
 		}
 		public bool[] ExtractWeekDays()
@@ -50,6 +44,11 @@ namespace Clock
 					weekdays += $"{Weekdays[i]},";
 			}
 			return weekdays;
+		}
+		public bool IsSet (DayOfWeek day)
+		{
+			int dayIndex = ((int)day + 6) % 7;
+			return (week & (1 << dayIndex)) != 0;
 		}
 	}
 }

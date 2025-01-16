@@ -13,6 +13,7 @@ using System.IO;
 using System.Diagnostics;
 using Microsoft.Win32;
 using System.Security.Claims;
+using AxWMPLib;
 
 
 namespace Clock
@@ -34,6 +35,7 @@ namespace Clock
 			cmShowConsole.Checked = true;
 			LoadSettings();
 			alarms = new AlarmsForm();
+			axWindowsMediaPlayer.Visible = false;
 		}
 		void SetVisibility(bool visible)
 		{
@@ -86,6 +88,13 @@ namespace Clock
 			
 			return actualAlarms.Min();
 		}
+		void PlayAlarm()
+		{
+			axWindowsMediaPlayer.URL = nextAlarm.Filename;
+			axWindowsMediaPlayer.settings.volume = 100;
+			axWindowsMediaPlayer.Ctlcontrols.play();
+			axWindowsMediaPlayer.Visible = true;
+		}
 		private void timer_Tick(object sender, EventArgs e)
 		{
 			labelTime.Text = DateTime.Now.ToString("hh:mm:ss tt", System.Globalization.CultureInfo.InvariantCulture);
@@ -101,15 +110,17 @@ namespace Clock
 			}
 			notifyIcon.Text = labelTime.Text;
 			if (
-				nextAlarm != null && 
+				nextAlarm != null &&
 				nextAlarm.Time.Hours == DateTime.Now.Hour && 
 				nextAlarm.Time.Minutes == DateTime.Now.Minute && 
-				nextAlarm.Time.Seconds == DateTime.Now.Second 
+				nextAlarm.Time.Seconds == DateTime.Now.Second &&
+				nextAlarm.Weekdays.IsSet(DateTime.Now.DayOfWeek)
 				)
 			{
 				System.Threading.Thread.Sleep(1000);
-				Console.WriteLine("ALARM!!!");
-				MessageBox.Show(!string.IsNullOrEmpty(nextAlarm.Message) ? nextAlarm.Message : "Alarm!!!!", "Alarm", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+				//Console.WriteLine("ALARM!!!");
+				//MessageBox.Show(!string.IsNullOrEmpty(nextAlarm.Message) ? nextAlarm.Message : "Alarm!!!!", "Alarm", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+				PlayAlarm();
 				nextAlarm = null;
 				alarms.LB_Alarms.Items.Remove(nextAlarm);
 			}
@@ -211,22 +222,7 @@ namespace Clock
 		public static extern bool AllocConsole();
 		[DllImport("kernel32.dll")]
 		public static extern bool FreeConsole();
-		//private void SaveSettings()
-		//{
-		//	Properties.Settings.Default.ForegroundColor = foreground;
-		//	Properties.Settings.Default.BackgroundColor = background;
-		//	Properties.Settings.Default.Font = labelTime.Font;
-		//	Properties.Settings.Default.Save();
-		//}
-		//private void LoadSettings()
-		//{
-		//	foreground = Properties.Settings.Default.ForegroundColor;
-		//	background = Properties.Settings.Default.BackgroundColor;
-		//	labelTime.ForeColor = foreground;
-		//	labelTime.BackColor = background;
-		//	labelTime.Font = Properties.Settings.Default.Font;
-		//}
-
+		
 		private void MainForm_FormClosing(object sender, FormClosingEventArgs e)
 		{
 			SaveSettings();
@@ -250,6 +246,12 @@ namespace Clock
 				);
 
 			alarms.ShowDialog();
+		}
+		
+		void SetPlayerInvisible(object sender, AxWMPLib._WMPOCXEvents_PlayStateChangeEvent e)
+		{
+			if (axWindowsMediaPlayer.playState == WMPLib.WMPPlayState.wmppsMediaEnded || axWindowsMediaPlayer.playState == WMPLib.WMPPlayState.wmppsStopped)
+				axWindowsMediaPlayer.Visible = false;
 		}
 	}
 }

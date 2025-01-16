@@ -33,8 +33,8 @@
 			this.labelTime = new System.Windows.Forms.Label();
 			this.contextMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
 			this.cmTopmost = new System.Windows.Forms.ToolStripMenuItem();
-			this.cmShowControls = new System.Windows.Forms.ToolStripMenuItem();
 			this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
+			this.cmShowControls = new System.Windows.Forms.ToolStripMenuItem();
 			this.cmShowDate = new System.Windows.Forms.ToolStripMenuItem();
 			this.cmShowWeekday = new System.Windows.Forms.ToolStripMenuItem();
 			this.cmShowConsole = new System.Windows.Forms.ToolStripMenuItem();
@@ -43,18 +43,20 @@
 			this.cmBackColor = new System.Windows.Forms.ToolStripMenuItem();
 			this.cmForeColor = new System.Windows.Forms.ToolStripMenuItem();
 			this.cmChooseFonts = new System.Windows.Forms.ToolStripMenuItem();
+			this.toolStripSeparator4 = new System.Windows.Forms.ToolStripSeparator();
+			this.cbAlarms = new System.Windows.Forms.ToolStripMenuItem();
 			this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
 			this.cmLoadOnWinStartup = new System.Windows.Forms.ToolStripMenuItem();
+			this.toolStripSeparator5 = new System.Windows.Forms.ToolStripSeparator();
 			this.cmExit = new System.Windows.Forms.ToolStripMenuItem();
 			this.timer = new System.Windows.Forms.Timer(this.components);
 			this.checkBoxShowDate = new System.Windows.Forms.CheckBox();
 			this.btnHideControls = new System.Windows.Forms.Button();
 			this.cbShowWeekDay = new System.Windows.Forms.CheckBox();
 			this.notifyIcon = new System.Windows.Forms.NotifyIcon(this.components);
-			this.cbAlarms = new System.Windows.Forms.ToolStripMenuItem();
-			this.toolStripSeparator4 = new System.Windows.Forms.ToolStripSeparator();
-			this.toolStripSeparator5 = new System.Windows.Forms.ToolStripSeparator();
+			this.axWindowsMediaPlayer = new AxWMPLib.AxWindowsMediaPlayer();
 			this.contextMenu.SuspendLayout();
+			((System.ComponentModel.ISupportInitialize)(this.axWindowsMediaPlayer)).BeginInit();
 			this.SuspendLayout();
 			// 
 			// labelTime
@@ -90,7 +92,7 @@
             this.toolStripSeparator5,
             this.cmExit});
 			this.contextMenu.Name = "contextMenu";
-			this.contextMenu.Size = new System.Drawing.Size(248, 302);
+			this.contextMenu.Size = new System.Drawing.Size(248, 274);
 			// 
 			// cmTopmost
 			// 
@@ -100,6 +102,11 @@
 			this.cmTopmost.Text = "Topmost";
 			this.cmTopmost.CheckedChanged += new System.EventHandler(this.cmTopmost_CheckedChanged);
 			// 
+			// toolStripSeparator1
+			// 
+			this.toolStripSeparator1.Name = "toolStripSeparator1";
+			this.toolStripSeparator1.Size = new System.Drawing.Size(244, 6);
+			// 
 			// cmShowControls
 			// 
 			this.cmShowControls.CheckOnClick = true;
@@ -107,11 +114,6 @@
 			this.cmShowControls.Size = new System.Drawing.Size(247, 24);
 			this.cmShowControls.Text = "Show controls";
 			this.cmShowControls.CheckedChanged += new System.EventHandler(this.cmShowControls_CheckedChanged);
-			// 
-			// toolStripSeparator1
-			// 
-			this.toolStripSeparator1.Name = "toolStripSeparator1";
-			this.toolStripSeparator1.Size = new System.Drawing.Size(244, 6);
 			// 
 			// cmShowDate
 			// 
@@ -172,6 +174,18 @@
 			this.cmChooseFonts.Text = "Choose font";
 			this.cmChooseFonts.Click += new System.EventHandler(this.cmChooseFonts_Click);
 			// 
+			// toolStripSeparator4
+			// 
+			this.toolStripSeparator4.Name = "toolStripSeparator4";
+			this.toolStripSeparator4.Size = new System.Drawing.Size(244, 6);
+			// 
+			// cbAlarms
+			// 
+			this.cbAlarms.Name = "cbAlarms";
+			this.cbAlarms.Size = new System.Drawing.Size(247, 24);
+			this.cbAlarms.Text = "Alarms";
+			this.cbAlarms.Click += new System.EventHandler(this.cmAlarm_Click);
+			// 
 			// toolStripSeparator2
 			// 
 			this.toolStripSeparator2.Name = "toolStripSeparator2";
@@ -184,6 +198,11 @@
 			this.cmLoadOnWinStartup.Size = new System.Drawing.Size(247, 24);
 			this.cmLoadOnWinStartup.Text = "Load on Windows startup";
 			this.cmLoadOnWinStartup.CheckedChanged += new System.EventHandler(this.cmLoadOnWinStartup_CheckedChanged);
+			// 
+			// toolStripSeparator5
+			// 
+			this.toolStripSeparator5.Name = "toolStripSeparator5";
+			this.toolStripSeparator5.Size = new System.Drawing.Size(244, 6);
 			// 
 			// cmExit
 			// 
@@ -240,28 +259,22 @@
 			this.notifyIcon.Visible = true;
 			this.notifyIcon.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.notifyIcon_MouseDoubleClick);
 			// 
-			// cbAlarms
+			// axWindowsMediaPlayer
 			// 
-			this.cbAlarms.Name = "cbAlarms";
-			this.cbAlarms.Size = new System.Drawing.Size(247, 24);
-			this.cbAlarms.Text = "Alarms";
-			this.cbAlarms.Click += new System.EventHandler(this.cmAlarm_Click);
-			// 
-			// toolStripSeparator4
-			// 
-			this.toolStripSeparator4.Name = "toolStripSeparator4";
-			this.toolStripSeparator4.Size = new System.Drawing.Size(244, 6);
-			// 
-			// toolStripSeparator5
-			// 
-			this.toolStripSeparator5.Name = "toolStripSeparator5";
-			this.toolStripSeparator5.Size = new System.Drawing.Size(244, 6);
+			this.axWindowsMediaPlayer.Enabled = true;
+			this.axWindowsMediaPlayer.Location = new System.Drawing.Point(12, 297);
+			this.axWindowsMediaPlayer.Name = "axWindowsMediaPlayer";
+			this.axWindowsMediaPlayer.OcxState = ((System.Windows.Forms.AxHost.State)(resources.GetObject("axWindowsMediaPlayer.OcxState")));
+			this.axWindowsMediaPlayer.Size = new System.Drawing.Size(226, 48);
+			this.axWindowsMediaPlayer.TabIndex = 4;
+			this.axWindowsMediaPlayer.PlayStateChange += new AxWMPLib._WMPOCXEvents_PlayStateChangeEventHandler(this.SetPlayerInvisible);
 			// 
 			// MainForm
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-			this.ClientSize = new System.Drawing.Size(380, 369);
+			this.ClientSize = new System.Drawing.Size(380, 454);
+			this.Controls.Add(this.axWindowsMediaPlayer);
 			this.Controls.Add(this.cbShowWeekDay);
 			this.Controls.Add(this.btnHideControls);
 			this.Controls.Add(this.checkBoxShowDate);
@@ -274,6 +287,7 @@
 			this.Text = "Clock PV_319";
 			this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.MainForm_FormClosing);
 			this.contextMenu.ResumeLayout(false);
+			((System.ComponentModel.ISupportInitialize)(this.axWindowsMediaPlayer)).EndInit();
 			this.ResumeLayout(false);
 			this.PerformLayout();
 
@@ -305,6 +319,7 @@
 		private System.Windows.Forms.ToolStripSeparator toolStripSeparator4;
 		private System.Windows.Forms.ToolStripMenuItem cbAlarms;
 		private System.Windows.Forms.ToolStripSeparator toolStripSeparator5;
+		private AxWMPLib.AxWindowsMediaPlayer axWindowsMediaPlayer;
 	}
 }
 

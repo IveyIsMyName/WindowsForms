@@ -37,8 +37,19 @@ namespace Clock
 		}
 		private void btnOK_Click(object sender, EventArgs e)
 		{
-			this.DialogResult = DialogResult.OK;
-			Week week = new Week(clbWeekDays.Items.Cast<object>().Select((item, index) => clbWeekDays.GetItemChecked(index)).ToArray());
+			//Week week = new Week(clbWeekDays.Items.Cast<object>().Select((item, index) => clbWeekDays.GetItemChecked(index)).ToArray());
+			bool[] daysSelected = clbWeekDays.Items
+				.Cast<object>()
+				.Select((item, index) =>
+				clbWeekDays.GetItemChecked(index))
+				.ToArray();
+			if (!daysSelected.Any(day => day))
+			{
+				this.DialogResult = DialogResult.None;
+				MessageBox.Show(this, "Пожалуйста, выберите хотя бы один день недели", "Предупреждение", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+				return;
+			}
+			Week week = new Week(daysSelected);
 			Console.WriteLine(week);
 			Alarm = new Alarm
 			{
@@ -53,12 +64,15 @@ namespace Clock
 			//Alarm.Weekdays = week;
 			//Alarm.Filename = lblAlarmFile.Text;
 			//Alarm.Message = rtbMessage.Text;
-			rtbMessage.Clear();
-			if (Alarm.Filename == "" ||Alarm.Filename == "File:")
+			if (Alarm.Filename == "" || Alarm.Filename == "File:")
 			{
 				this.DialogResult = DialogResult.None;
 				MessageBox.Show(this, "Выберите звуковой файл", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+				return;
 			}
+	
+			this.DialogResult = DialogResult.OK;
+			rtbMessage.Clear();
 		}
 
 		private void btnFile_Click(object sender, EventArgs e)
