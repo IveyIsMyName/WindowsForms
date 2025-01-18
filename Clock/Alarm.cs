@@ -46,7 +46,16 @@ namespace Clock
 			info += $"{Message}\t";
 			return info;
 		}
-		
+		public string ToFileString()
+		{
+			string info = "";
+			if (Date != DateTime.MinValue) info += $"{Date.Ticks}";
+			info += $",{Time.Ticks},";
+			info += $"{Weekdays.ToFileString()},";
+			info += $"{Filename},";
+			info += $"{Message},";
+			return info;
+		}
 		public int CompareTo(Alarm other)
 		{
 			//Console.WriteLine($"CompareTo called: {this.Time} vs {other.Time}");

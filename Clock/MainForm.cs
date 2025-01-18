@@ -35,6 +35,7 @@ namespace Clock
 			cmShowConsole.Checked = true;
 			LoadSettings();
 			alarms = new AlarmsForm();
+			LoadAlarms();
 			axWindowsMediaPlayer.Visible = false;
 		}
 		void SetVisibility(bool visible)
@@ -77,6 +78,50 @@ namespace Clock
 			sr.Close();
 			fontDialog = new ChooseFontForm(this, fontName, fontSize);
 			labelTime.Font = fontDialog.Font;
+		}
+		void SaveAlarms()
+		{
+			string executation_path = Path.GetDirectoryName(Application.ExecutablePath);
+			string fileName = $"{executation_path}\\..\\..\\Fonts\\Alarms.ini";
+			StreamWriter sw = new StreamWriter(fileName);
+			for( int i = 0; i < alarms.LB_Alarms.Items.Count; i++)
+			{
+				sw.WriteLine((alarms.LB_Alarms.Items[i] as Alarm).ToFileString());
+			}
+			sw.Close();
+			//Process.Start("notepad", fileName);
+		}
+		void LoadAlarms()
+		{
+			string execution_path = Path.GetDirectoryName(Application.ExecutablePath);
+			string fileName = $"{execution_path}\\..\\..\\Fonts\\Alarms.ini";
+			try
+			{
+				StreamReader sr = new StreamReader(fileName);
+				while (!sr.EndOfStream)
+				{
+					string s_alarm = sr.ReadLine();
+					string[] s_alarm_parts = s_alarm.Split(',');
+					for (int i = 0; i < s_alarm_parts.Length; i++)
+						Console.Write(s_alarm_parts[i] + ' ');
+					Console.WriteLine();
+					Alarm alarm = new Alarm
+						(
+						s_alarm_parts[0] == "" ? new DateTime() : new DateTime(Convert.ToInt64(s_alarm_parts[0])),
+						new TimeSpan(Convert.ToInt64(s_alarm_parts[1])),
+						new Week(Convert.ToByte(s_alarm_parts[2])),
+						s_alarm_parts[3],
+						s_alarm_parts[4]
+						);
+					alarms.LB_Alarms.Items.Add(alarm);
+				}
+				sr.Close();
+			}
+			catch (Exception ex)
+			{
+				Console.WriteLine("Alarms not found");
+			}
+			
 		}
 		Alarm FindNextAlarm()
 		{
@@ -128,13 +173,13 @@ namespace Clock
 			{
 				System.Threading.Thread.Sleep(1000);
 				//Console.WriteLine("ALARM!!!");
-				//MessageBox.Show(!string.IsNullOrEmpty(nextAlarm.Message) ? nextAlarm.Message : "Alarm!!!!", "Alarm", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
 				PlayAlarm();
-				nextAlarm = null;
+				MessageBox.Show(!string.IsNullOrEmpty(nextAlarm.Message) ? nextAlarm.Message : "Alarm!!!!", "Alarm", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+				nextAlarm = FindNextAlarm();
 				//alarms.LB_Alarms.Items.Remove(nextAlarm);
 			}
-			if (nextAlarm != null) Console.WriteLine(nextAlarm);
 			if (alarms.LB_Alarms.Items.Count > 0) nextAlarm = FindNextAlarm(); //nextAlarm = alarms.LB_Alarms.Items.Cast<Alarm>().ToArray().Min();
+			if (nextAlarm != null) Console.WriteLine(nextAlarm);
 		}
 
 		private void btnHideControls_Click(object sender, EventArgs e)
@@ -235,6 +280,7 @@ namespace Clock
 		private void MainForm_FormClosing(object sender, FormClosingEventArgs e)
 		{
 			SaveSettings();
+			SaveAlarms();
 		}
 
 		private void cmLoadOnWinStartup_CheckedChanged(object sender, EventArgs e)

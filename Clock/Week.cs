@@ -12,11 +12,15 @@ namespace Clock
 		public static readonly string[] Weekdays = new string[] { "Пн", "Вт", "Ср", "Чт", "Пт", "Сб", "Вск" };
 
 		byte week;
-		public Week() { week = 0; }
+		public Week(byte week = 0) 
+		{ 
+			this.week = week; 
+		}
 		public Week(bool[] days)
 		{
 			CompressWeekDays(days);
 		}
+		
 		
 		public void CompressWeekDays(bool[] days)
 		{
@@ -56,6 +60,10 @@ namespace Clock
 		{
 			int dayIndex = ((int)day + 6) % 7;
 			return (week & (1 << dayIndex)) != 0;
+		}
+		public string ToFileString()
+		{
+			return week.ToString();
 		}
 	}
 }
